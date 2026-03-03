@@ -95,20 +95,12 @@ POST /api/ask/
 
 1️⃣ 開啟 PowerShell
 
-
-
 2️⃣ 進入專案資料夾
-
-cd <your-project-path>
-
-請改成你自己的專案路徑。
-
+cd  <your-project-path>請改成你自己的專案路徑。
 
 
 3️⃣ 啟動 Docker
-
 docker compose up -d
-
 
 
 4️⃣ 確認系統是否正常
@@ -120,8 +112,6 @@ docker compose up -d
 代表：Django 正常 PostgreSQL 正常 Docker 正常
 
 
-
 🔹 關閉系統
-
 docker compose down
 
