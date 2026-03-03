@@ -20,3 +20,7 @@ staticfiles/
 
 # Mac
 .DS_Store
+
+*.docx
+*.tmp
+~$*
