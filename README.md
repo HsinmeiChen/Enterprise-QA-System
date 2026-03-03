@@ -16,7 +16,7 @@ OpenAI：負責向量生成（Embedding）與回答生成（LLM）
 
 **文件處理流程：**
 
-上傳文件→ 切成多個 chunk→ 轉成向量→ 存入向量資料庫
+上傳文件→ 切成多個 chunk→ 建立索引 →轉成向量→ 存入向量資料庫
 
 
 
@@ -75,5 +75,53 @@ POST /api/ask/
 
 
 
+**執行前需要安裝**
 
+**1. Docker Desktop（必要）**
+
+本專案使用 Docker 管理所有環境（Python、Django、PostgreSQL、Qdrant）。
+
+請先安裝：https://www.docker.com/products/docker-desktop/
+
+**2. OpenAI API Key（必要）**
+
+本專案需要 OpenAI 產生向量與回答。
+
+請在專案根目錄建立 .env 檔案：OPENAI\_API\_KEY=你的API金鑰
+
+
+
+🔹 如何啟動系統
+
+1️⃣ 開啟 PowerShell
+
+
+
+2️⃣ 進入專案資料夾
+
+cd <your-project-path>
+
+請改成你自己的專案路徑。
+
+
+
+3️⃣ 啟動 Docker
+
+docker compose up -d
+
+
+
+4️⃣ 確認系統是否正常
+
+打開瀏覽器：http://localhost:8000/health/
+
+如果看到：{"status":"ok","db":1}
+
+代表：Django 正常 PostgreSQL 正常 Docker 正常
+
+
+
+🔹 關閉系統
+
+docker compose down
 
