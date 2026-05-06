@@ -68,7 +68,6 @@ POST /api/ask/
 
 * Docker container 與 volume 的差別
 * 向量資料庫與關聯式資料庫的角色分工
-* 如何處理 404 / 500 錯誤
 * 如何閱讀 traceback 找錯誤來源
 * OpenAI quota 與 API 錯誤處理
 * RAG 的完整流程拆解
