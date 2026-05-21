@@ -122,9 +122,7 @@ POST /api/search/
 POST /api/ask/
 
 
-
 我在這個專案中學到的
-
 * Docker container 與 volume 的差別
 * 向量資料庫與關聯式資料庫的角色分工
 * 如何閱讀 traceback 找錯誤來源
@@ -132,9 +130,7 @@ POST /api/ask/
 * RAG 的完整流程拆解
 
 
-
 **執行前需要安裝**
-
 **1. Docker Desktop（必要）**
 
 本專案使用 Docker 管理所有環境（Python、Django、PostgreSQL、Qdrant）。
@@ -148,9 +144,7 @@ POST /api/ask/
 請在專案根目錄建立 .env 檔案：OPENAI\_API\_KEY=你的API金鑰
 
 
-
 🔹 如何啟動系統
-
 1️⃣ 開啟 PowerShell
 
 2️⃣ 進入專案資料夾
@@ -158,7 +152,6 @@ cd  <your-project-path>請改成你自己的專案路徑。
 
 
 3️⃣ 啟動 Docker
->>>>>>> ed99aca8c4b724155fd47547d45c33196016b687
 docker compose up -d
 
 # 2. 執行 Django 資料庫遷移，讓 Django ORM 自動在 PostgreSQL 中建立所需的資料表
