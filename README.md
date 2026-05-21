@@ -76,11 +76,11 @@ B. 使用者問答檢索流程 (RAG Flow)
 ---------------------------------------------------------------------------
 5. 快速開始 (How to Run)
 ---------------------------------------------------------------------------
-** [前提條件]**
+**[前提條件]**
 1. 電腦需安裝 Docker Desktop ( https://www.docker.com/products/docker-desktop/ )
 2. 準備一組可用的 OpenAI API Key
 
-** [Step 1: 配置環境變數]**
+**[Step 1: 配置環境變數]**
 請在專案根目錄下建立一個名為 `.env` 的檔案，並填入以下內容：
 
 OPENAI_API_KEY=你的OpenAI金鑰
@@ -89,7 +89,7 @@ QDRANT_URL=http://qdrant:6333
 
 QDRANT_COLLECTION=enterprise_docs
 
-** [Step 2: 啟動系統與資料庫遷移]**
+**[Step 2: 啟動系統與資料庫遷移]**
 開啟終端機（PowerShell 或 Terminal），進入專案資料夾並依序執行以下指令：
 
 # 1. 建立並在背景啟動所有 Docker 容器 (Django, PostgreSQL, Qdrant)
