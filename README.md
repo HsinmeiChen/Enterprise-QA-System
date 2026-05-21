@@ -1,8 +1,6 @@
 Enterprise QA System (RAG 企業文件問答系統後端 API)
 
-本專案是一個基於 RAG (檢索增強生成) 架構的企業文件問答系統後端服務。開發本專案的核心目的在於完整實作 RAG 的技術鏈，包含文件的動態上傳、文本分段(Chunking)、向量化儲存(Embedding Indexing)、語意檢索以及動態 Context 提示詞生成。
-
-本專案專注於後端架構與資料流實作，完全採用 Docker Compose 進行容器化管理，並利用 Django ORM 進行關聯式資料庫的控制，確保開發與部署環境的一致性與可擴充性。
+本專案是一個基於 RAG（檢索增強生成）架構的企業文件問答系統後端服務，核心目的在於完整實作包含動態上傳、文本分段、向量化儲存、語意檢索及動態提示詞生成的完整 RAG 技術鏈；專案專注於後端架構與資料流實作，完全採用 Docker Compose 進行容器化管理，並利用 Django ORM 進行關聯式資料庫控制，以確保開發與部署環境的一致性與可擴充性。
 
 ---------------------------------------------------------------------------
 1. 系統架構與角色分工
@@ -63,8 +61,7 @@ B. 使用者問答檢索流程 (RAG Flow)
   - URL 端點 ：/api/ask/
   - 說明：結合語意檢索與 LLM，生成限制文本來源的準確回答。
 
-提示：防禦性設計
-系統在執行索引建立或檢索時，後端會自動觸發 ensure_collection() 機制，自動檢查並建立 Qdrant 的 Collection 規格。
+防禦性設計：系統在執行索引建立或檢索時，後端會自動觸發 ensure_collection() 機制，自動檢查並建立 Qdrant 的 Collection 規格。
 
 ---------------------------------------------------------------------------
 4. 專案收穫與工程實踐
@@ -153,13 +150,16 @@ POST /api/ask/
 
 
 🔹 如何啟動系統
+
 1️⃣ 開啟 PowerShell
 
 2️⃣ 進入專案資料夾
+
 cd  <your-project-path>請改成你自己的專案路徑。
 
 
 3️⃣ 啟動 Docker
+
 docker compose up -d
 
 # 2. 執行 Django 資料庫遷移，讓 Django ORM 自動在 PostgreSQL 中建立所需的資料表
@@ -168,6 +168,7 @@ docker compose exec web python manage.py migrate
 (註：若您 docker-compose 中的 Django 服務名稱不為 web，請將上面指令中的 web 替換為對應名稱。)
 
 [Step 3: 健康檢查]
+
 系統啟動後，可透過瀏覽器或 Postman 訪問健康檢查端點：
 http://localhost:8000/health/
 
@@ -175,5 +176,6 @@ http://localhost:8000/health/
 {"status":"ok","db":1}
 
 [關閉系統]
+
 若需停止所有容器服務，請於專案目錄執行：
 docker compose down
