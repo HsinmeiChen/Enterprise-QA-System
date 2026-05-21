@@ -87,7 +87,9 @@ B. 使用者問答檢索流程 (RAG Flow)
 請在專案根目錄下建立一個名為 `.env` 的檔案，並填入以下內容：
 
 OPENAI_API_KEY=你的OpenAI金鑰
+
 QDRANT_URL=http://qdrant:6333
+
 QDRANT_COLLECTION=enterprise_docs
 
 [Step 2: 啟動系統與資料庫遷移]
@@ -95,11 +97,17 @@ QDRANT_COLLECTION=enterprise_docs
 
 # 1. 建立並在背景啟動所有 Docker 容器 (Django, PostgreSQL, Qdrant)
 Python 3.12
+
 Django + DRF
+
 PostgreSQL
+
 Qdrant
+
 OpenAI API
+
 Docker Compose
+
 整個環境用 Docker 管理，確保不會因為本機環境不同而出問題。
 
 
