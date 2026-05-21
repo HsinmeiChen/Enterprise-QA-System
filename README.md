@@ -1,6 +1,4 @@
-===========================================================================
 Enterprise QA System (RAG 企業文件問答系統後端 API)
-===========================================================================
 
 本專案是一個基於 RAG (檢索增強生成) 架構的企業文件問答系統後端服務。開發本專案的核心目的在於完整實作 RAG 的技術鏈，包含文件的動態上傳、文本分段(Chunking)、向量化儲存(Embedding Indexing)、語意檢索以及動態 Context 提示詞生成。
 
@@ -96,6 +94,71 @@ QDRANT_COLLECTION=enterprise_docs
 開啟終端機（PowerShell 或 Terminal），進入專案資料夾並依序執行以下指令：
 
 # 1. 建立並在背景啟動所有 Docker 容器 (Django, PostgreSQL, Qdrant)
+Python 3.12
+Django + DRF
+PostgreSQL
+Qdrant
+OpenAI API
+Docker Compose
+整個環境用 Docker 管理，確保不會因為本機環境不同而出問題。
+
+
+可以做的事情
+
+1\. 上傳文件
+
+POST /api/documents/
+
+2\. 建立索引
+
+POST /api/documents/{id}/index/
+
+3\. 語意搜尋
+
+POST /api/search/
+
+4\. 問答
+
+POST /api/ask/
+
+
+
+我在這個專案中學到的
+
+* Docker container 與 volume 的差別
+* 向量資料庫與關聯式資料庫的角色分工
+* 如何閱讀 traceback 找錯誤來源
+* OpenAI quota 與 API 錯誤處理
+* RAG 的完整流程拆解
+
+
+
+**執行前需要安裝**
+
+**1. Docker Desktop（必要）**
+
+本專案使用 Docker 管理所有環境（Python、Django、PostgreSQL、Qdrant）。
+
+請先安裝：https://www.docker.com/products/docker-desktop/
+
+**2. OpenAI API Key（必要）**
+
+本專案需要 OpenAI 產生向量與回答。
+
+請在專案根目錄建立 .env 檔案：OPENAI\_API\_KEY=你的API金鑰
+
+
+
+🔹 如何啟動系統
+
+1️⃣ 開啟 PowerShell
+
+2️⃣ 進入專案資料夾
+cd  <your-project-path>請改成你自己的專案路徑。
+
+
+3️⃣ 啟動 Docker
+>>>>>>> ed99aca8c4b724155fd47547d45c33196016b687
 docker compose up -d
 
 # 2. 執行 Django 資料庫遷移，讓 Django ORM 自動在 PostgreSQL 中建立所需的資料表
@@ -113,4 +176,3 @@ http://localhost:8000/health/
 [關閉系統]
 若需停止所有容器服務，請於專案目錄執行：
 docker compose down
-===========================================================================
