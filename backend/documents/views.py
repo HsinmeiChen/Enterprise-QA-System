@@ -2,12 +2,9 @@ from rest_framework.views import APIView
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
 from rest_framework import status
-
 from django.conf import settings
-
 from .serializers import DocumentUploadSerializer
 from .models import Document, Chunk
-
 from services.pdf_chunker import chunk_pdf
 from services.embedding import embed_text
 from services.qdrant_store import ensure_collection, upsert_vectors, new_point_id
@@ -42,7 +39,6 @@ class DocumentUploadView(APIView):
 
         doc = serializer.save()
 
-        # Chunking
         try:
             file_path = doc.file.path
             chunks = chunk_pdf(file_path, chunk_size=500)

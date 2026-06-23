@@ -1,6 +1,6 @@
 from pypdf import PdfReader
 
-def chunk_pdf(file_path, chunk_size=500):
+def chunk_pdf(file_path, chunk_size=100):
     reader = PdfReader(file_path)
     chunks = []
 

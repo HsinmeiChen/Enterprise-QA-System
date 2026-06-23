@@ -1,7 +1,6 @@
 import os
 import uuid
 from typing import Iterable, Tuple
-
 from qdrant_client import QdrantClient
 from qdrant_client.models import Distance, VectorParams, PointStruct
 
