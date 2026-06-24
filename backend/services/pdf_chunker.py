@@ -10,7 +10,7 @@ def chunk_pdf(file_path, chunk_size=100):
         for i in range(0, len(text), chunk_size):
             chunk_text = text[i:i + chunk_size]
 
-            if chunk_text.strip():  # 避免空白
+            if chunk_text.strip():  
                 chunks.append({
                     "page": page_number + 1,
                     "chunk_index": i // chunk_size,
