@@ -10,7 +10,10 @@ from services.embedding import embed_text
 from services.qdrant_store import ensure_collection, upsert_vectors, new_point_id
 from services.llm import answer_with_context
 from qdrant_client import QdrantClient
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 
+@method_decorator(csrf_exempt, name='dispatch')
 
 class DocumentUploadView(APIView):
     """
