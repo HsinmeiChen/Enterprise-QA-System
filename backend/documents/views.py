@@ -226,8 +226,10 @@ class AskView(APIView):
             return Response({"error": "Failed to embed query."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
         # 2) qdrant search (query_points)
-        qc = QdrantClient(url=getattr(settings, "QDRANT_URL", "http://qdrant:6333"),api_key=getattr(settings, "
-        ", None),)
+        qc = QdrantClient(
+            url=getattr(settings, "QDRANT_URL", "http://qdrant:6333"),
+            api_key=getattr(settings, "QDRANT_API_KEY", None),
+       )
         collection = getattr(settings, "QDRANT_COLLECTION", "enterprise_docs")
 
         try:
