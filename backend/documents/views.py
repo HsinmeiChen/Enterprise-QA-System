@@ -7,25 +7,20 @@ from .serializers import DocumentUploadSerializer
 from .models import Document, Chunk
 from services.pdf_chunker import chunk_pdf
 from services.embedding import embed_text
-from services.qdrant_store import ensure_collection, upsert_vectors, new_point_id
+from services.qdrant_store import ensure_collection, upsert_vectors 
 from services.llm import answer_with_context
 from qdrant_client import QdrantClient
-from django.views.decorators.csrf import csrf_exempt
-from django.utils.decorators import method_decorator
+import hashlib
+import uuid
+from django.http import JsonResponse
+from qdrant_client.models import PointStruct
 
-@method_decorator(csrf_exempt, name='dispatch')
+def generate_chunk_id(text_content: str) -> str:
+    hasher = hashlib.md5(text_content.encode('utf-8'))
+    hex_digest = hasher.hexdigest()
+    return str(uuid.UUID(hex_digest))
 
 class DocumentUploadView(APIView):
-    """
-    POST /api/documents/
-    form-data:
-      - file: PDF file (required)
-      - title: string (optional)
-
-    Behavior:
-      - Save Document (and uploaded file)
-      - Chunk PDF text into Chunk rows in PostgreSQL
-    """
     parser_classes = [MultiPartParser, FormParser]
 
     def post(self, request, *args, **kwargs):
@@ -54,11 +49,13 @@ class DocumentUploadView(APIView):
         created_count = 0
         try:
             for c in chunks:
-                Chunk.objects.create(
-                    document=doc,
-                    page=c["page"],
-                    chunk_index=c["chunk_index"],
-                    content=c["content"],
+                Chunk.objects.update_or_create(
+                    document=doc,           
+                    content=c["content"],   
+                    defaults={
+                        "page": c["page"],
+                        "chunk_index": c["chunk_index"],
+                    }
                 )
                 created_count += 1
         except Exception as e:
@@ -79,12 +76,6 @@ class DocumentUploadView(APIView):
 
 
 class DocumentIndexView(APIView):
-    """
-    POST /api/documents/<doc_id>/index/
-    - Embed chunks
-    - Upsert vectors to Qdrant
-    - Save qdrant_point_id back to PostgreSQL
-    """
 
     def post(self, request, doc_id: int, *args, **kwargs):
         try:
@@ -96,15 +87,13 @@ class DocumentIndexView(APIView):
         if not chunks_qs.exists():
             return Response({"error": "No chunks found for this document."}, status=status.HTTP_400_BAD_REQUEST)
 
-        to_index = [c for c in chunks_qs if not c.qdrant_point_id]
-        if not to_index:
-            return Response({"message": "Already indexed.", "indexed": 0}, status=status.HTTP_200_OK)
+        to_index = chunks_qs 
 
         vectors_payloads = []
         vector_size = None
         indexed_count = 0
         skipped_empty = 0
-
+        
         for c in to_index:
             vec = embed_text(c.content)
             if not vec:
@@ -115,7 +104,7 @@ class DocumentIndexView(APIView):
                 vector_size = len(vec)
                 ensure_collection(vector_size)
 
-            pid = new_point_id()
+            pid = pid = generate_chunk_id(c.content)
             payload = {
                 "document_id": doc.id,
                 "page": c.page,
@@ -147,13 +136,6 @@ class DocumentIndexView(APIView):
 
 
 class SearchView(APIView):
-    """
-    POST /api/search/
-    JSON:
-      - query: str (required)
-      - top_k: int (default 5)
-      - score_threshold: float (default 0.2)
-    """
 
     def post(self, request, *args, **kwargs):
         query = (request.data.get("query") or "").strip()
@@ -229,10 +211,7 @@ class AskView(APIView):
             return Response({"error": "Failed to embed query."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
         # 2) qdrant search (query_points)
-        qc = QdrantClient(
-            url=getattr(settings, "QDRANT_URL", "http://qdrant:6333"),
-            api_key=getattr(settings, "QDRANT_API_KEY", None),
-       )
+        qc = QdrantClient(url=getattr(settings, "QDRANT_URL", "http://qdrant:6333"))
         collection = getattr(settings, "QDRANT_COLLECTION", "enterprise_docs")
 
         try:
