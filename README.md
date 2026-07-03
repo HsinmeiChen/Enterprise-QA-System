@@ -84,7 +84,9 @@ URL 端點 ：/api/ask/
 請在專案根目錄下建立一個名為 .env 的檔案，並填入以下內容：
 
 OPENAI_API_KEY=你的OpenAI金鑰
+
 QDRANT_URL=http://qdrant:6333
+
 QDRANT_COLLECTION=enterprise_docs
 
 [Step 2: 啟動系統與資料庫遷移]
@@ -93,14 +95,18 @@ QDRANT_COLLECTION=enterprise_docs
 1. 建立並在背景啟動所有 Docker 容器 (Django, PostgreSQL, Qdrant)
 docker compose up -d
 
-2. 執行 Django 資料庫遷移，讓 Django ORM 自動在 PostgreSQL 中建立所需的資料表
+
+3. 執行 Django 資料庫遷移，讓 Django ORM 自動在 PostgreSQL 中建立所需的資料表
 docker compose exec web python manage.py migrate
+
 
 (註：若您 docker-compose 中的 Django 服務名稱不為 web，請將上面指令中的 web 替換為對應的服務名稱。)
 
 [Step 3: 健康檢查]
 系統啟動後，可透過瀏覽器或 Postman 訪問健康檢查端點：
+
 http://localhost:8000/health/
+
 
 若看見以下 JSON 回應，代表所有容器與關聯資料庫皆正常連線運行：
 {"status":"ok","db":1}
